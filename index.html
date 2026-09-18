@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pit Stop - HBD Cami</title>
+  <style>
+    :root {
+      --f1-red: #e10600;
+      --f1-dark: #15151e;
+      --f1-light: #f3f3f3;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--f1-dark);
+      color: var(--f1-light);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .f1-card {
+      background: #1f1f2c;
+      border-top: 5px solid var(--f1-red);
+      border-radius: 12px;
+      padding: 2.5rem;
+      max-width: 550px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
+      position: relative;
+    }
+
+    .f1-badge {
+      display: inline-block;
+      background: var(--f1-red);
+      color: #fff;
+      font-weight: bold;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin: 0.5rem 0 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    .btn-action {
+      background: var(--f1-red);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .btn-action:hover {
+      background-color: #b30500;
+      transform: scale(1.05);
+    }
+
+    .message-container {
+      display: none;
+      margin-top: 2rem;
+      text-align: left;
+      line-height: 1.6;
+      border-left: 3px solid var(--f1-red);
+      padding-left: 1rem;
+      animation: fadeIn 0.8s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .floating-item {
+      position: fixed;
+      pointer-events: none;
+      font-size: 1.8rem;
+      animation: floatUp 2.5s ease-out forwards;
+      z-index: 100;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.8) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-120px) scale(1.3) rotate(20deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="f1-card">
+    <div class="f1-badge">GRAND PRIX DAY</div>
+    <h1>HBD Cami 🏎️💨</h1>
+    <p style="color: #aaa; margin-bottom: 2rem;">Haz clic para desplegar los detalles del día.</p>
+    
+    <button class="btn-action" id="triggerBtn" onclick="revealDetails(event)">Ver mensaje</button>
+
+    <div class="message-container" id="messageBox">
+      <p>Que la vida te sorprenda de la mejor manera posible este año, que la salud te acompañe cada segundo, y que aquello que tú consideras especial nunca te falte...</p>
+      <p>Y recuerda Cami, un cumpleaños es un regalo de vida, un presente para ti, un momento para celebrar, un día para ser feliz.</p>
+      <p style="margin-top: 1.5rem; font-weight: 500; color: #ddd;">
+        Con mucho aprecio,<br>
+        Alguien que te admira y respeta por la persona que eres.<br>
+        <strong>¡Felicidades! &lt;4</strong>
+      </p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
