@@ -2,134 +2,330 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pit Stop - HBD Cami</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --f1-red: #e10600;
-      --f1-dark: #15151e;
-      --f1-light: #f3f3f3;
+      --f1-red-glow: rgba(225, 6, 0, 0.4);
+      --f1-dark-bg: #0b0c10;
+      --f1-card-bg: rgba(21, 21, 30, 0.85);
+      --f1-border: rgba(255, 255, 255, 0.1);
     }
 
     body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--f1-dark);
-      color: var(--f1-light);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background-color: var(--f1-dark-bg);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #f3f3f3;
       min-height: 100vh;
       overflow-x: hidden;
+      margin: 0;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(225, 6, 0, 0.15) 0%, transparent 60%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+    }
+
+    .f1-font {
+      font-family: 'Orbitron', sans-serif;
     }
 
     .f1-card {
-      background: #1f1f2c;
-      border-top: 5px solid var(--f1-red);
-      border-radius: 12px;
-      padding: 2.5rem;
-      max-width: 550px;
-      width: 90%;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      text-align: center;
+      background: var(--f1-card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--f1-border);
+      border-top: 4px solid var(--f1-red);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(225, 6, 0, 0.15);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .carbon-texture {
+      background-color: #111116;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 16%),
+                        radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 16%);
+      background-size: 12px 12px;
+      background-position: 0 0, 6px 6px;
+    }
+
+    .f1-light {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #22222a;
+      border: 2px solid #111;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .f1-light.active {
+      background: #ff1801;
+      box-shadow: 0 0 20px #ff1801, inset 0 0 8px #fff;
+    }
+
+    .f1-btn {
+      background: linear-gradient(135deg, #e10600 0%, #b30500 100%);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       position: relative;
+      overflow: hidden;
     }
 
-    .f1-badge {
-      display: inline-block;
-      background: var(--f1-red);
-      color: #fff;
-      font-weight: bold;
-      font-size: 0.8rem;
-      padding: 4px 12px;
-      border-radius: 4px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
+    .f1-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: 0.5s;
     }
 
-    h1 {
-      font-size: 2.2rem;
-      margin: 0.5rem 0 1.5rem;
-      letter-spacing: 1px;
+    .f1-btn:hover::before {
+      left: 100%;
     }
 
-    .btn-action {
-      background: var(--f1-red);
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: transform 0.2s, background-color 0.2s;
+    .f1-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(225, 6, 0, 0.5);
     }
 
-    .btn-action:hover {
-      background-color: #b30500;
-      transform: scale(1.05);
-    }
-
-    .message-container {
-      display: none;
-      margin-top: 2rem;
-      text-align: left;
-      line-height: 1.6;
-      border-left: 3px solid var(--f1-red);
-      padding-left: 1rem;
-      animation: fadeIn 0.8s ease-in-out forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .floating-item {
+    #particle-canvas {
       position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
-      font-size: 1.8rem;
-      animation: floatUp 2.5s ease-out forwards;
-      z-index: 100;
+      z-index: 50;
     }
 
-    @keyframes floatUp {
-      0% {
-        opacity: 1;
-        transform: translateY(0) scale(0.8) rotate(0deg);
-      }
-      100% {
+    .fade-in-up {
+      animation: fadeInUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
         opacity: 0;
-        transform: translateY(-120px) scale(1.3) rotate(20deg);
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
   </style>
 </head>
-<body>
+<body class="flex items-center justify-center p-4 md:p-8 select-none">
 
-  <div class="f1-card">
-    <div class="f1-badge">GRAND PRIX DAY</div>
-    <h1>HBD Cami 🏎️💨</h1>
-    <p style="color: #aaa; margin-bottom: 2rem;">Haz clic para desplegar los detalles del día.</p>
-    
-    <button class="btn-action" id="triggerBtn" onclick="revealDetails(event)">Ver mensaje</button>
+  <canvas id="particle-canvas"></canvas>
 
-    <div class="message-container" id="messageBox">
-      <p>Que la vida te sorprenda de la mejor manera posible este año, que la salud te acompañe cada segundo, y que aquello que tú consideras especial nunca te falte...</p>
-      <p>Y recuerda Cami, un cumpleaños es un regalo de vida, un presente para ti, un momento para celebrar, un día para ser feliz.</p>
-      <p style="margin-top: 1.5rem; font-weight: 500; color: #ddd;">
-        Con mucho aprecio,<br>
-        Alguien que te admira y respeta por la persona que eres.<br>
-        <strong>¡Felicidades! &lt;4</strong>
-      </p>
+  <main class="w-full max-w-2xl z-10 my-auto">
+    <!-- Main Race Card -->
+    <div class="f1-card rounded-2xl p-6 md:p-10 relative overflow-hidden">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-4 border-b border-white/10">
+        <div class="flex items-center gap-2">
+          <span class="h-2.5 w-2.5 rounded-full bg-red-600 animate-ping"></span>
+          <span class="f1-font text-xs tracking-widest text-red-500 font-bold uppercase">GRAND PRIX SPECIAL EDITION // PIT STOP</span>
+        </div>
+        <div class="f1-font text-xs text-gray-400 font-medium tracking-wider">
+          EST. 2026
+        </div>
+      </div>
+
+      <!-- F1 Starting Lights Display -->
+      <div id="lights-container" class="carbon-texture p-3 rounded-xl border border-white/10 mb-8 flex items-center justify-center gap-3 sm:gap-5 shadow-inner">
+        <div class="f1-light" id="light-1"></div>
+        <div class="f1-light" id="light-2"></div>
+        <div class="f1-light" id="light-3"></div>
+        <div class="f1-light" id="light-4"></div>
+        <div class="f1-light" id="light-5"></div>
+      </div>
+
+      <!-- Title Header -->
+      <div class="text-center mb-6">
+        <h1 class="f1-font text-3xl sm:text-5xl font-black text-white tracking-tight mb-2">
+          HBD Cami <span class="text-red-600 inline-block transform hover:rotate-12 transition-transform">🏎️</span>
+        </h1>
+        <p class="text-gray-400 text-sm sm:text-base font-light">
+          Secuencia de arranque lista. Despliega la información del circuito.
+        </p>
+      </div>
+
+      <div id="action-zone" class="flex justify-center my-6">
+        <button id="start-btn" onclick="triggerSequence()" class="f1-btn f1-font text-white text-sm sm:text-base font-bold py-4 px-8 rounded-xl flex items-center gap-3 shadow-lg cursor-pointer">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          INICIAR CARRERA / DESPLEGAR
+        </button>
+      </div>
+
+      <div id="message-body" class="hidden space-y-6 text-gray-300 text-sm sm:text-base leading-relaxed pt-4">
+        
+        <div class="bg-white/5 border-l-4 border-red-600 p-4 rounded-r-xl italic text-gray-200">
+          "Que la vida te sorprenda de la mejor manera posible este año, que la salud te acompañe cada segundo, y que aquello que tú consideras especial nunca te falte... Y recuerda Cami, un cumpleaños es un regalo de vida, un presente para ti, un momento para celebrar un día para ser feliz, con mucho aprecio, alguien que te admira y respeta por la persona que eres, felicidades <4"
+        </div>
+
+        <p>
+          Hoy comienza una nueva vuelta al circuito, un nuevo capítulo para seguir acelerando hacia cada una de tus metas. Que este año esté lleno de momentos memorables, lecturas fascinantes que alimenten tu mente, grandes canciones que acompañen tus días y, por supuesto, ese toque único de sazón y buena energía que siempre te caracteriza.
+        </p>
+
+        <p>
+          Tienes una mente analítica brillante, capaz de razonar, entender y superar cualquier desafío que tengas enfrente. Que nunca te falte la determinación para ir tras lo que deseas, ni la pausa justa para disfrutar de cada pequeño logro en el camino.
+        </p>
+
+        <p class="pt-2 text-gray-400 text-xs sm:text-sm border-t border-white/10 flex justify-between items-center">
+          <span>GP DE CUMPLEAÑOS // P30</span>
+          <span class="f1-font text-red-500 font-bold">LIGHTS OUT & AWAY WE GO! 🏁</span>
+        </p>
+
+      </div>
+
+      <div id="tap-prompt" class="hidden text-center mt-6 text-xs text-gray-500 f1-font uppercase tracking-widest animate-pulse">
+        ⚡ Haz clic en cualquier lugar para lanzar más destellos
+      </div>
+
     </div>
-  </div>
+  </main>
 
-  <script src="script.js"></script>
+  <script>
+    // Dynamic SVG path assets (F1 Racecar, Open Book, Musical Note, Chili Pepper)
+    const SVG_ASSETS = {
+      car: `<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full text-red-500"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.85 7h10.29l1.04 3H5.81l1.04-3zM19 17H5v-4h14v4z"/><circle cx="7.5" cy="15" r="1.5"/><circle cx="16.5" cy="15" r="1.5"/></svg>`,
+      book: `<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full text-blue-400"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.13-1.3 4.85-1.42 1.3-.09 2.51.13 3.65.67.15.07.35.05.5-.05.15-.1.25-.25.25-.45V6c-.35-.35-.8-.7-1.25-1zm-1 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-3.45.35-4.8 1.15V7.5c1.35-.8 3.1-1.15 4.8-1.15 1.2 0 2.4.15 3.5.5v11.65z"/></svg>`,
+      music: `<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full text-yellow-400"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>`,
+      pepper: `<svg viewBox="0 0 24 24" fill="currentColor" class="w-full h-full text-red-400"><path d="M12 3c-1.1 0-2 .9-2 2 0 .37.1.71.28 1.02C8.08 7.02 6.5 9.32 6.5 12c0 4.42 3.58 8 8 8 1.38 0 2.5-1.12 2.5-2.5 0-1.88-1.82-3.08-3.41-3.92C12.44 12.96 12 12.35 12 11.5c0-.83.67-1.5 1.5-1.5h.5c2.21 0 4-1.79 4-4 0-1.66-1.34-3-3-3h-3zm0 2h3c.55 0 1 .45 1 1s-.45 1-1 1h-.5C13.12 7 12 8.12 12 9.5c0 1.91 1.05 3.12 2.76 4.02 1.34.71 2.74 1.63 2.74 3.48 0 .28-.22.5-.5.5-3.31 0-6-2.69-6-6 0-2.02 1.25-3.76 3-4.52-.15-.15-.25-.36-.25-.6 0-.55.45-1 1-1z"/></svg>`
+    };
+
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Particle class for dynamic physics execution
+    class SVGParticle {
+      constructor(x, y, type) {
+        this.x = x;
+        this.y = y;
+        this.type = type;
+        this.size = Math.random() * 24 + 20; // Particle scale
+        this.vx = (Math.random() - 0.5) * 6;
+        this.vy = -Math.random() * 5 - 3;
+        this.rotation = Math.random() * 360;
+        this.vRot = (Math.random() - 0.5) * 4;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.012 + 0.008;
+
+        // Render SVG to image object
+        this.img = new Image();
+        const svgString = encodeURIComponent(SVG_ASSETS[type]);
+        this.img.src = `data:image/svg+xml;utf8,${svgString}`;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.05; // slight gravity / lift
+        this.rotation += this.vRot;
+        this.alpha -= this.decay;
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        ctx.translate(this.x, this.y);
+        ctx.rotate((this.rotation * Math.PI) / 180);
+        ctx.drawImage(this.img, -this.size / 2, -this.size / 2, this.size, this.size);
+        ctx.restore();
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].alpha <= 0) {
+          particles.splice(i, 1);
+        }
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    function spawnParticles(x, y, count = 12) {
+      const keys = ['car', 'book', 'music', 'pepper'];
+      for (let i = 0; i < count; i++) {
+        const randomKey = keys[Math.floor(Math.random() * keys.length)];
+        particles.push(new SVGParticle(x, y, randomKey));
+      }
+    }
+
+    // Global listener for extra interactive taps
+    let interactiveMode = false;
+    window.addEventListener('click', (e) => {
+      if (interactiveMode) {
+        spawnParticles(e.clientX, e.clientY, 6);
+      }
+    });
+
+    function triggerSequence() {
+      const startBtn = document.getElementById('start-btn');
+      startBtn.style.pointerEvents = 'none';
+      startBtn.style.opacity = '0.5';
+
+      const lights = [
+        document.getElementById('light-1'),
+        document.getElementById('light-2'),
+        document.getElementById('light-3'),
+        document.getElementById('light-4'),
+        document.getElementById('light-5')
+      ];
+
+      let currentLight = 0;
+
+      // 5 Red Lights Sequence
+      const lightInterval = setInterval(() => {
+        if (currentLight < 5) {
+          lights[currentLight].classList.add('active');
+          currentLight++;
+        } else {
+          clearInterval(lightInterval);
+          
+          // Lights Out & Away We Go!
+          setTimeout(() => {
+            lights.forEach(l => l.classList.remove('active'));
+            
+            // Spawn celebration particles from button center
+            const rect = startBtn.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            spawnParticles(centerX, centerY, 32);
+
+            // Reveal Message Body
+            document.getElementById('action-zone').style.display = 'none';
+            const messageBody = document.getElementById('message-body');
+            messageBody.classList.remove('hidden');
+            messageBody.classList.add('fade-in-up');
+
+            document.getElementById('tap-prompt').classList.remove('hidden');
+            interactiveMode = true;
+          }, 800);
+        }
+      }, 400);
+    }
+  </script>
 </body>
 </html>
-
-
